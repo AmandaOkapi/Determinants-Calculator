@@ -1,35 +1,44 @@
 def det(matrix):
     print(f"given{matrix}")
     if len(matrix)<=2:
-        topRow=matrix[0]
-        bottomRow=matrix[0]
-        return topRow[0]*bottomRow[0]-topRow[0]*topRow[0]
+        if len(matrix)==2:
+            topRow=matrix[0]
+            bottomRow=matrix[0]
+            return 5
+        else:
+            return 0
 
     else:
         cornerRow=matrix[0]
 
         matrixList=[]
-        for i in range(len(matrix)-1):
-            matrix0=matrix[:]
-            matrix0=matrix0[1:]
-            row=matrix0[0]
-            row[i]=""
-            
-            for j in range(len(matrix0)):
-                if row[j]=="":
+        matrix0=[]
+        for i in range(len(matrix)):
+            matrix0.append(matrix[i][:])
+        
+        matrix0=matrix0[1:]
+        
+        for i in range(len(matrix)):
+            row=matrix0[0][:]
+            row[i]="delete"
+            print(f"matrix 0{matrix0}")
+            print(row)
+            print(matrix)
+            matrixA=matrix0[:]
+            for j in range(len(matrix0[0])):
+                if j==i:
                     for k in range(len(matrix0)):
-                        row_to_remove=matrix0[k]
-                        del row_to_remove[j]
-                        matrix0[k]=row_to_remove
-            print(matrix0)
-            matrixList.append(matrix0)
-        return cornerRow[0]*det(matrixList[0]) -cornerRow[1]*det(matrixList[1]) 
-
-
-
+                        del matrixA[k][j]
+                    break         
+            print(f"YAY{matrixA}")
+            matrixList.append(matrixA[:])
+            matrix0=[]
+            for i in range(len(matrix)):
+                matrix0.append(matrix[i][:])
+            matrix0=matrix0[1:]
+        return 5
 
 def main():
-    
     row1=[1,2,3]
     row2=[-4,5,6]
     row3=[7,-8,9]
