@@ -1,48 +1,71 @@
+import copy
 def det(matrix):
-    print(f"given{matrix}")
+    #print(f"given{matrix}")
+    
+
+    
     if len(matrix)<=2:
-        if len(matrix)==2:
-            topRow=matrix[0]
-            bottomRow=matrix[0]
-            return 5
-        else:
-            return 0
+        return matrix[0][0] *matrix[1][1] - (matrix[1][0] * matrix[0][1])
 
     else:
-        cornerRow=matrix[0]
+        #to store each submatrix
+        subMatrixList=[]
+        
+        #make the submatricies
 
-        matrixList=[]
-        matrix0=[]
         for i in range(len(matrix)):
-            matrix0.append(matrix[i][:])
-        
-        matrix0=matrix0[1:]
-        
-        for i in range(len(matrix)):
-            row=matrix0[0][:]
-            row[i]="delete"
-            print(f"matrix 0{matrix0}")
-            print(row)
-            print(matrix)
-            matrixA=matrix0[:]
-            for j in range(len(matrix0[0])):
+            #remove the first row
+            subMatrix=copy.deepcopy(matrix[1:])
+            #print(subMatrix)
+            #make each subMatrix and append to a list
+            for j in range(len(matrix)):
+                #remove the collumn to form the submatrix
                 if j==i:
-                    for k in range(len(matrix0)):
-                        del matrixA[k][j]
+                    for k in range(len(subMatrix)):
+                        #print(f" deleting{subMatrix[k][j]}")
+                        del subMatrix[k][j]
                     break         
-            print(f"YAY{matrixA}")
-            matrixList.append(matrixA[:])
-            matrix0=[]
-            for i in range(len(matrix)):
-                matrix0.append(matrix[i][:])
-            matrix0=matrix0[1:]
-        return 5
+            #print(f"submatrix{ i }: { subMatrix}")
+            subMatrixList.append(copy.deepcopy(subMatrix))
+
+        #print(subMatrixList)
+
+        #calculate the determinant 
+        detTotal=0
+        row0=matrix[0][:]
+        
+        for i in range(len(row0)):
+            detTotal+=(row0[i] * det(subMatrixList[i])) * ((-1)**i)
+
+        return detTotal
 
 def main():
-    row1=[1,2,3]
-    row2=[-4,5,6]
-    row3=[7,-8,9]
-    matrixMain=[row1,row2,row3]
+    
+    while True:
+        n=int(input("Enter a matrix dimension: "))
+        if n>=2:
+            break
+        else:
+            print("Dimension must be at least 2")
+    
+    matrixMain=[]
+    for i in range(n):
+        print(f"Enter values for row{i+1}: ")
+        row=[]
+        for j in range(n):
+            while True:
+                x=input(f"val{i+1},{j+1}: ")
+                try:
+                    x=int(x)
+                    row.append(x)
+                    break
+                except ValueError:
+                    print("Invalid input! Please enter a valid integer.")
+        matrixMain.append(row[:])
+        for k in range(len(matrixMain)):
+            print (matrixMain[k])
+
+
     
     print(det(matrixMain))
     
