@@ -35,12 +35,14 @@ def det(matrix):
         row0=matrix[0][:]
         
         for i in range(len(row0)):
-            detTotal+=(row0[i] * det(subMatrixList[i])) * ((-1)**i)
+            if row0[i] != 0:
+                detTotal+=(row0[i] * det(subMatrixList[i])) * ((-1)**i)
 
         return detTotal
 
 def main():
     
+    #user inputs
     while True:
         n=int(input("Enter a matrix dimension: "))
         if n>=2:
